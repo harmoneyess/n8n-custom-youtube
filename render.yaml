@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: n8n-custom
+    env: docker
+    plan: starter
+    autoDeploy: true
+    ports:
+      - port: 5678
+        protocol: tcp
