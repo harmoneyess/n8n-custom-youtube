@@ -8,7 +8,9 @@ RUN apk add --no-cache ffmpeg git
 
 # Install YouTube custom node
 RUN mkdir -p /home/node/.n8n/custom && \
-    git clone https://github.com/Gh05d/n8n-nodes-youtube.git /home/node/.n8n/custom/n8n-nodes-youtube
+    git clone https://github.com/Gh05d/n8n-nodes-youtube.git /home/node/.n8n/custom/n8n-nodes-youtube && \
+    cd /home/node/.n8n/custom/n8n-nodes-youtube && \
+    npm install && npm run build
 
 # Copy entrypoint
 COPY docker-entrypoint.sh /docker-entrypoint.sh
