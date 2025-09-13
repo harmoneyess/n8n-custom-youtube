@@ -1,21 +1,21 @@
 # Custom n8n with ffmpeg and YouTube node
+# Use official n8n image as base
 FROM n8nio/n8n:latest
 
+# Switch to root to install dependencies
 USER root
 
-# Install ffmpeg
-RUN apk add --no-cache ffmpeg git
+# Install ffmpeg and bash
+RUN apk add --no-cache ffmpeg bash
 
-# Install YouTube custom node
-RUN mkdir -p /home/node/.n8n/custom && \
-    git clone https://github.com/Gh05d/n8n-nodes-youtube.git /home/node/.n8n/custom/n8n-nodes-youtube && \
-    cd /home/node/.n8n/custom/n8n-nodes-youtube && \
-    npm install && npm run build
-
-# Copy entrypoint
-COPY docker-entrypoint.sh /docker-entrypoint.sh
-RUN chmod +x /docker-entrypoint.sh
-
+# Switch back to n8n user
 USER node
 
-ENTRYPOINT ["tini", "--", "/docker-entrypoint.sh"]
+# Set working directory
+WORKDIR /data
+
+# Expose n8n port
+EXPOSE 5678
+
+# Default command
+ENTRYPOINT ["n8n"]
